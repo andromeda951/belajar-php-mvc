@@ -15,6 +15,7 @@ class HomeController{
 
         View::render("Home/index", $model);
 
+        // require __DIR__ . "/../View/Home/index.php";
         // echo "HomeController.index()";
     }
 

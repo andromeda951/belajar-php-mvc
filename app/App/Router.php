@@ -6,13 +6,18 @@ class Router {
 
     private static array $routes = [];
 
-    public static function add(string $method, string $path, string $controller, string $function): void    
+    public static function add( string $method,
+                                string $path,
+                                string $controller, 
+                                string $function,
+                                array $middleware = []): void    
     {
         self::$routes[] = [
             "method" => $method,
             "path" => $path,
             "controller" => $controller,
-            "function" => $function    
+            "function" => $function,
+            "middleware" => $middleware    
         ];
     }
 
@@ -29,6 +34,12 @@ class Router {
             $pattern = '#^' . $route['path'] . '$#';
             if (preg_match($pattern, $path, $variable) && $method == $route['method']) {
 
+                // call middleware
+                foreach($route['middleware'] as $middleware) {
+                    $instace = new $middleware;
+                    $instace->before();
+                }
+
                 $controller = new $route['controller'];
                 $function = $route['function'];
                 //$controller->$function();
@@ -42,6 +53,7 @@ class Router {
 
         http_response_code(404);
         echo "CONTROLLER NOT FOUND";
+        // echo $_SERVER['PATH_INFO'];
     }
 } 
 
