@@ -26,11 +26,15 @@ class Router {
         $method = $_SERVER["REQUEST_METHOD"];
 
         foreach (self::$routes as $route) {
-            if ($path == $route['path'] && $method == $route['method']) {
+            $pattern = '#^' . $route['path'] . '$#';
+            if (preg_match($pattern, $path, $variable) && $method == $route['method']) {
 
                 $controller = new $route['controller'];
                 $function = $route['function'];
-                $controller->$function();
+                //$controller->$function();
+
+                array_shift($variable);
+                call_user_func_array([$controller, $function], $variable);
 
                 return;     // baris code di bawah tidak akan di eksekusi
             }

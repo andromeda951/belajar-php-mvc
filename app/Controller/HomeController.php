@@ -2,16 +2,25 @@
  
 namespace Andromeda\Belajar\PHP\MVC\Controller;
 
+use Andromeda\Belajar\PHP\MVC\App\View;
+
 class HomeController{
 
     public function index(): void
     {
-        echo "HomeController.index()";
+        $model = [
+            'title' => 'Belajar PHP MVC',
+            'content' => 'Selamat belajar PHP MVC di Programmer Zaman Now'
+        ];
+
+        View::render("Home/index", $model);
+
+        // echo "HomeController.index()";
     }
 
     public function hello(): void
     {
-        echo "Controller.hello()";
+        echo "HomeController.hello()";
     }
 
     public function world(): void
